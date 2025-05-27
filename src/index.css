@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%; /* White */
+    --foreground: 240 10% 3.9%; /* Near Black */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 240 10% 3.9%; /* Near Black */
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: 240 10% 3.9%; /* Near Black */
+    --primary: 145 63% 42%; /* Soft Green */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 240 4.8% 95.9%; /* Light Gray */
+    --secondary-foreground: 240 5.9% 10%; /* Dark Gray */
+    --muted: 240 4.8% 95.9%; /* Light Gray */
+    --muted-foreground: 240 3.8% 46.1%; /* Medium Gray */
+    --accent: 145 50% 70%; /* Accent Green */
+    --accent-foreground: 0 0% 100%; /* White */
+    --destructive: 0 72% 51%; /* Red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White */
+    --border: 240 5.9% 90%; /* Gray Border */
+    --input: 240 5.9% 90%; /* Gray Input Border */
+    --ring: 145 63% 42%; /* Soft Green for focus rings (can be adjusted if primary changes significantly) */
+    --radius: 0.75rem; /* Slightly larger radius for softer look */
+  }
+
+  .dark {
+    --background: 240 10% 3.9%; /* Near Black */
+    --foreground: 0 0% 98%; /* Almost White */
+    --card: 240 10% 3.9%; /* Near Black */
+    --card-foreground: 0 0% 98%; /* Almost White */
+    --popover: 240 10% 3.9%; /* Near Black */
+    --popover-foreground: 0 0% 98%; /* Almost White */
+    --primary: 145 55% 50%; /* Brighter Soft Green for Dark Mode */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 240 3.7% 15.9%; /* Dark Gray */
+    --secondary-foreground: 0 0% 98%; /* Almost White */
+    --muted: 240 3.7% 15.9%; /* Dark Gray */
+    --muted-foreground: 240 5% 64.9%; /* Medium Light Gray */
+    --accent: 145 50% 60%; /* Accent Green for Dark Mode */
+    --accent-foreground: 0 0% 100%; /* White */
+    --destructive: 0 60% 45%; /* Darker Red */
+    --destructive-foreground: 0 0% 100%; /* White */
+    --border: 240 3.7% 15.9%; /* Dark Gray Border */
+    --input: 240 3.7% 15.9%; /* Dark Gray Input Border */
+    --ring: 145 55% 50%; /* Brighter Soft Green for focus rings */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  .text-xxs {
+    font-size: 0.65rem;
+    line-height: 0.85rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.7);
+  border-radius: 10px;
+  border: 2px solid hsl(var(--secondary));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+/* For Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.7) hsl(var(--secondary));
+}
+
+
+.car-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: var(--radius);
+}
+
+.car-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px -10px hsla(var(--primary), 0.2);
+}
+
+.car-card-v2 {
+  /* New styles for CarCard will be handled by Tailwind classes directly in the component */
+}
+
+
+.hero-section {
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.9) 0%, hsl(var(--primary) / 0.7) 100%),
+              url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNhcnN8ZW58MHx8MHx8fDA%3D&w=1000&q=80') no-repeat center center;
+  background-size: cover;
+}
+
+.feature-icon {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  border-radius: 50%;
+  padding: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 6px 12px -3px hsla(var(--primary), 0.3);
+}
+
+.car-detail-image {
+  border-radius: var(--radius);
+  box-shadow: 0 20px 30px -10px hsla(var(--primary), 0.15);
+  transition: transform 0.5s ease-out;
+}
+.car-detail-image:hover {
+  transform: scale(1.03);
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+  background-color: hsl(var(--secondary));
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.spec-item:hover {
+  transform: translateX(6px);
+  background-color: hsl(var(--accent) / 0.3);
+}
+
+.booking-form {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: 0 10px 20px -5px hsla(var(--primary), 0.1);
+}
+
+/* Page transition animation */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Animated gradient text */
+.animated-gradient-text {
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 4s linear infinite;
+}
+
+@keyframes gradient-flow {
+  to {
+    background-position: 200% center;
+  }
+}
