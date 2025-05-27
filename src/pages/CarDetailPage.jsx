@@ -5,18 +5,18 @@ import { cars } from "@/data/cars";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import BookingForm from "@/components/BookingForm";
-import ImageCarousel from "@/components/ImageCarousel"; 
+import ImageCarousel from "@/components/ImageCarousel";
 import AdditionalServicesSection from "@/components/AdditionalServicesSection";
-import { 
-  Car, 
-  CalendarDays, 
-  Users, 
-  Gauge, 
-  Zap, 
-  Fuel, 
-  Package, 
-  ArrowLeft, 
-  Star, 
+import {
+  Car,
+  CalendarDays,
+  Users,
+  Gauge,
+  Zap,
+  Fuel,
+  Package,
+  ArrowLeft,
+  Star,
   CheckCircle,
   Tag
 } from "lucide-react";
@@ -25,7 +25,7 @@ const CarDetailPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const car = cars.find(c => c.id === parseInt(id));
-  
+
   const queryParams = new URLSearchParams(location.search);
   const action = queryParams.get('action');
 
@@ -50,7 +50,7 @@ const CarDetailPage = () => {
 
   if (!car) {
     return (
-      <motion.div 
+      <motion.div
         className="container py-20 text-center"
         variants={pageVariants}
         initial="initial"
@@ -64,9 +64,9 @@ const CarDetailPage = () => {
       </motion.div>
     );
   }
-  
+
   return (
-    <motion.div 
+    <motion.div
       className="py-16 bg-background"
       variants={pageVariants}
       initial="initial"
@@ -78,7 +78,7 @@ const CarDetailPage = () => {
             <ArrowLeft className="h-4 w-4 mr-1.5" /> Назад к автопарку BazCar
           </Link>
         </motion.div>
-        
+
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <motion.div variants={itemVariants(1)}>
             <div className="flex items-center mb-2">
@@ -89,7 +89,7 @@ const CarDetailPage = () => {
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-foreground">{car.name}</h1>
           </motion.div>
-          
+
           <motion.div variants={itemVariants(2)} className="mt-4 md:mt-0 text-right">
             <div>
               <span className="text-2xl font-bold text-primary">{car.price.toLocaleString('ru-RU')} ₽</span>
@@ -102,23 +102,26 @@ const CarDetailPage = () => {
                 <Badge variant="success" className="ml-2 text-xs px-2 py-0.5 shadow-sm bg-green-100 text-green-700 border-green-300">
                   <Tag className="h-3 w-3 mr-1"/> Выгодно
                 </Badge>
+                <Badge variant="success" className="ml-2 text-xs px-2 py-0.5 shadow-sm bg-green-100 text-green-700 border-green-300">
+                  <Tag className="h-3 w-3 mr-1"/> С учётом скидки в 10% в честь открытия
+                </Badge>
               </div>
             )}
           </motion.div>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2">
             <motion.div variants={itemVariants(3)} className="mb-8">
               <ImageCarousel images={car.images} carName={car.name} />
             </motion.div>
-            
+
             <motion.div variants={itemVariants(4)} className="mb-10 p-6 bg-card rounded-lg shadow-lg border border-border/50">
               <h2 className="text-3xl font-bold text-foreground mb-4">Об этой машине BazCar</h2>
               <p className="text-muted-foreground text-md leading-relaxed mb-6">
                 {car.description_ru}
               </p>
-              
+
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                 {[
                   { icon: Car, label: car.specifications.engine_ru.split(" ")[0], sub: "Двигатель" },
@@ -126,8 +129,8 @@ const CarDetailPage = () => {
                   { icon: Gauge, label: car.specifications.topSpeed_ru.split(" ")[0], sub: "Макс. скорость" },
                   { icon: Zap, label: car.specifications.acceleration_ru.split(" ")[0], sub: "0-100км/ч" }
                 ].map((item, idx) => (
-                  <motion.div 
-                    key={idx} 
+                  <motion.div
+                    key={idx}
                     className="bg-secondary p-4 rounded-md hover:bg-primary/10 transition-colors"
                     whileHover={{ scale: 1.05 }}
                   >
@@ -138,7 +141,7 @@ const CarDetailPage = () => {
                 ))}
               </div>
             </motion.div>
-            
+
             <motion.div variants={itemVariants(5)} className="mb-10 p-6 bg-card rounded-lg shadow-lg border border-border/50">
               <h2 className="text-3xl font-bold text-foreground mb-5">Ключевые особенности</h2>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
@@ -150,7 +153,7 @@ const CarDetailPage = () => {
                 ))}
               </ul>
             </motion.div>
-            
+
             <motion.div variants={itemVariants(6)} className="p-6 bg-card rounded-lg shadow-lg border border-border/50 mb-10">
               <h2 className="text-3xl font-bold text-foreground mb-5">Характеристики</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -180,7 +183,7 @@ const CarDetailPage = () => {
             </motion.div>
 
           </div>
-          
+
           <motion.div id="booking-form-section" className="lg:col-span-1 sticky top-24" variants={itemVariants(7)}>
             <BookingForm car={car} price={car.price} price3PlusDays={car.price_3plus_days} />
           </motion.div>
