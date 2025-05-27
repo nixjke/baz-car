@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Baby, UserCheck, Fuel, ShieldCheck } from 'lucide-react';
+import { Baby, UserCheck, Fuel, ShieldCheck, Gamepad2 } from 'lucide-react';
+import { useParams } from "react-router-dom";
+
 
 const services = [
   {
@@ -43,6 +45,16 @@ const services = [
     bgColor: 'bg-purple-500/5',
     borderColor: 'border-purple-500/30 hover:border-purple-500/50',
     titleColor: 'text-purple-600',
+  },
+  {
+    icon: Gamepad2,
+    title: 'PlayStation 5',
+    description: 'Развлечения в дороге для детей и взрослых. В вашем распоряжении PS5 с предустановленной коллекцией популярных игр - готовые решения для любого настроения!',
+    price: '1 000 ₽/день',
+    iconColor: 'text-red-500',
+    bgColor: 'bg-red-500/5',
+    borderColor: 'border-red-500/30 hover:border-red-500/50',
+    titleColor: 'text-red-600',
   }
 ];
 
@@ -69,8 +81,12 @@ const AdditionalServicesSection = ({ onCarDetailPage = false }) => {
     }
   };
 
-  const gridClasses = onCarDetailPage 
-    ? "grid-cols-1 md:grid-cols-2 gap-6" 
+  const {id} = useParams()
+
+  const isLi7 = id === "3"
+
+  const gridClasses = onCarDetailPage
+    ? "grid-cols-1 md:grid-cols-2 gap-6"
     : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8";
 
   return (
@@ -97,7 +113,9 @@ const AdditionalServicesSection = ({ onCarDetailPage = false }) => {
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {services.map((service, index) => (
+        {services
+            .filter((_, index) => isLi7 || index !== services.length - 1)
+            .map((service, index) => (
           <motion.div key={index} variants={cardVariants} whileHover="hover">
             <Card className={`h-full overflow-hidden shadow-lg transition-all duration-300 ease-out border-2 ${service.borderColor} ${service.bgColor}`}>
               <CardHeader className={`p-5 flex flex-col items-center text-center`}>
