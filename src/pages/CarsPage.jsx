@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { cars } from "@/data/cars";
@@ -11,14 +11,17 @@ import { Button } from "@/components/ui/button";
 
 const CarsPage = () => {
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  
+
   const maxPrice = Math.max(...cars.map(car => car.price), 10000); 
   const minPrice = Math.min(...cars.map(car => car.price), 0);
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedFuelTypes, setSelectedFuelTypes] = React.useState([]);
   const [priceRange, setPriceRange] = React.useState([minPrice, maxPrice]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   
   const fuelTypes = [...new Set(cars.map(car => car.fuelType))];
   

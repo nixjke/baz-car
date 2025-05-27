@@ -1,6 +1,6 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,12 @@ import { useToast } from "@/components/ui/use-toast";
 const CartPage = () => {
   const { cartItems, removeFromCart, getCartTotal, clearCart } = useCart();
   const { toast } = useToast();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
@@ -57,9 +63,7 @@ const CartPage = () => {
       if (item.personalDriver) {
         message += `  Личный водитель: Да (+${(5000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)\n`;
       }
-      if (item.fullTank) {
-        message += `  Полный бак: Да (+${4000 .toLocaleString('ru-RU')} ₽)\n`;
-      }
+
       message += `  Стоимость позиции: ${item.totalPrice.toLocaleString('ru-RU')} ₽\n\n`;
     });
 

@@ -46,7 +46,7 @@ const calculateItemPrice = (item) => {
   if (item.childSeat) additionalServicesCost += 1500; // childSeatFee
   if (item.personalDriver && rentalDays > 0) additionalServicesCost += 5000 * rentalDays; // personalDriverFee * rentalDays
   if (item.fullTank) additionalServicesCost += 4000; // fullTankFee
-  
+
   return rentalCost + deliveryCost + youngDriverCost + additionalServicesCost;
 };
 
@@ -88,7 +88,7 @@ export const CartProvider = ({ children }) => {
           i.youngDriver === item.youngDriver &&
           i.childSeat === item.childSeat &&
           i.personalDriver === item.personalDriver &&
-          i.fullTank === item.fullTank
+          i.ps5 === item.ps5
       );
 
       if (existingItemIndex > -1) {

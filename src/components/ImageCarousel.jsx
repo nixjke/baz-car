@@ -77,7 +77,7 @@ const ImageCarousel = ({ images, carName }) => {
           }}
         >
         <img
-          className="w-full h-full object-contain"
+          className="w-full h-full object-cover"
           alt={`${carName} - изображение ${imageIndex + 1}`}
           src={images[imageIndex]} />
         </motion.div>

@@ -1,10 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Home, Car, AlertTriangle } from "lucide-react";
 
 const NotFoundPage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <div className="container py-20 text-center flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
       <motion.div

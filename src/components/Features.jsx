@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Clock, Car, Award } from "lucide-react";
+import { Shield, Clock, MapPin, Award } from "lucide-react";
 
 const featuresData = [
   {
@@ -14,9 +14,9 @@ const featuresData = [
     description: "Наша служба поддержки клиентов доступна круглосуточно, чтобы помочь вам с любыми вопросами."
   },
   {
-    icon: <Car className="h-6 w-6" />,
-    title: "Бесплатная Доставка",
-    description: "Мы предлагаем бесплатную доставку и забор автомобилей в черте города для вашего удобства."
+    icon: <MapPin className="h-6 w-6" />,
+    title: "Помощь с маршрутами" ,
+    description: "Подскажем лучшие туристические маршруты по Дагестану и дорожные условия."
   },
   {
     icon: <Award className="h-6 w-6" />,

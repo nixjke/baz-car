@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -8,9 +8,16 @@ import Testimonials from "@/components/Testimonials";
 import DagestanAttractions from "@/components/DagestanAttractions";
 import DressCodeInfo from "@/components/DressCodeInfo";
 import AdditionalServicesSection from "@/components/AdditionalServicesSection";
+import { useLocation } from "react-router-dom";
 
 
 const HomePage = () => {
+   const location = useLocation();
+
+   useEffect(() => {
+      window.scrollTo(0, 0);
+   }, [location.pathname]);
+
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
@@ -37,7 +44,7 @@ const HomePage = () => {
       >
         <Features />
       </motion.section>
-      
+
       <motion.section
         id="featured-cars"
         variants={sectionVariants}
@@ -70,7 +77,7 @@ const HomePage = () => {
       >
         <DagestanAttractions />
       </motion.section>
-      
+
       <motion.section
         id="dress-code"
         variants={sectionVariants}

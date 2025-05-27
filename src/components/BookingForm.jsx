@@ -9,12 +9,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCart } from "@/context/CartContext";
 import { deliveryOptionsData, additionalServicesConfig, serviceFees } from "@/config/bookingOptions.js";
-import { 
-  CalendarDays, 
-  User, 
-  Phone, 
-  Mail, 
-  AlertTriangle, 
+import {
+  CalendarDays,
+  User,
+  Phone,
+  Mail,
+  AlertTriangle,
   Truck,
   Users2,
   CreditCard,
@@ -22,11 +22,12 @@ import {
   ShoppingCart,
   Baby,
   UserCheck,
-  Fuel
+  Fuel,
+  Gamepad2
 } from "lucide-react";
 
 const iconsMap = {
-  CalendarDays, User, Phone, Mail, AlertTriangle, Truck, Users2, CreditCard, Tag, ShoppingCart, Baby, UserCheck, Fuel
+  CalendarDays, User, Phone, Mail, AlertTriangle, Truck, Users2, CreditCard, Tag, ShoppingCart, Baby, UserCheck, Fuel, Gamepad2
 };
 
 
@@ -36,11 +37,11 @@ const initialFormData = {
   name: "",
   email: "",
   phone: "",
-  deliveryOption: "pickup", 
+  deliveryOption: "pickup",
   youngDriver: false,
   childSeat: false,
   personalDriver: false,
-  fullTank: false,
+  ps5: false
 };
 
 
@@ -81,7 +82,7 @@ const DeliveryOptionsGroup = ({ value, onChange, options }) => (
       {options.map(option => {
         const IconComponent = iconsMap[option.iconKey];
         return (
-            <Label 
+            <Label
             key={option.id}
             htmlFor={`delivery-${option.id}`}
             className={`flex flex-col items-center justify-center rounded-md border-2 p-3 hover:border-primary cursor-pointer transition-all ${value === option.id ? "border-primary bg-primary/5 shadow-md" : "border-border/50"}`}
@@ -111,7 +112,7 @@ const AdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, f
         />
         <Label htmlFor={id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center">
         {IconComponent && <IconComponent className="h-4 w-4 mr-1.5 text-primary/80" />}
-        {label} 
+        {label}
         <span className="text-primary font-semibold ml-1">
             (+{fee.toLocaleString('ru-RU')} ₽{feeType === "daily" ? "/день" : ""})
         </span>
@@ -124,12 +125,12 @@ const AdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, f
 const PriceDetails = ({ rentalDays, dailyPrice, deliveryOptionId, youngDriver, additionalServices }) => {
   const deliveryCost = deliveryOptionsData.find(opt => opt.id === deliveryOptionId)?.price || 0;
   const rentalCost = dailyPrice * rentalDays;
-  
+
   let additionalServicesCostTotal = 0;
   if (additionalServices.childSeat) additionalServicesCostTotal += serviceFees.childSeat;
   if (additionalServices.personalDriver) additionalServicesCostTotal += serviceFees.personalDriver * rentalDays;
-  if (additionalServices.fullTank) additionalServicesCostTotal += serviceFees.fullTank;
-  
+  if (additionalServices.ps5) additionalServicesCostTotal += serviceFees.ps5;
+
   const totalAmount = rentalCost + deliveryCost + (youngDriver ? serviceFees.youngDriver : 0) + additionalServicesCostTotal;
 
   return (
@@ -168,14 +169,14 @@ const PriceDetails = ({ rentalDays, dailyPrice, deliveryOptionId, youngDriver, a
             <span className="text-foreground">+{ (serviceFees.personalDriver * rentalDays).toLocaleString('ru-RU')} ₽</span>
           </div>
         )}
-        {additionalServices.fullTank && (
+        {additionalServices.ps5 && (
           <div className="flex justify-between items-center text-sm">
             <span className="text-muted-foreground">Полный бак:</span>
-            <span className="text-foreground">+{serviceFees.fullTank.toLocaleString('ru-RU')} ₽</span>
+            <span className="text-foreground">+{serviceFees.ps5.toLocaleString('ru-RU')} ₽</span>
           </div>
         )}
       </div>
-      
+
       {totalAmount > 0 && (
         <div className="flex justify-between items-center mb-4 border-t border-dashed border-border/50 pt-3">
           <span className="text-md font-medium text-foreground flex items-center">
@@ -196,9 +197,9 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: type === "checkbox" ? checked : value 
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
     }));
   };
 
@@ -221,10 +222,10 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
       });
       return false;
     }
-    
+
     const pickupDate = new Date(formData.pickupDate);
     const returnDate = new Date(formData.returnDate);
-    
+
     if (returnDate <= pickupDate) {
       toast({
         title: "Ошибка в датах",
@@ -249,7 +250,7 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
         const diffTime = Math.abs(ret - pickup);
         rentalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         if (rentalDays === 0 && diffTime > 0) rentalDays = 1;
-        
+
         if (rentalDays >= 3 && price3PlusDays) {
           currentDailyPrice = price3PlusDays;
         }
@@ -266,7 +267,7 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
     if (formData.childSeat) total += serviceFees.childSeat;
     if (formData.personalDriver && rentalDays > 0) total += serviceFees.personalDriver * rentalDays;
     if (formData.fullTank) total += serviceFees.fullTank;
-    
+
     return { totalAmount: total, days: rentalDays, dailyPrice: currentDailyPrice };
   }, [formData, price, price3PlusDays]);
 
@@ -293,9 +294,9 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
       rentalDays: rentalDays,
       dailyPrice: dailyPrice,
     };
-    
+
     addToCart(cartItem);
-    setFormData(initialFormData); 
+    setFormData(initialFormData);
   };
 
   return (
@@ -306,46 +307,46 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
       className="booking-form p-6 lg:p-8 shadow-xl rounded-lg bg-card border border-border/30"
     >
       <h3 className="text-2xl font-bold text-foreground mb-6 text-center md:text-left">Оформить аренду</h3>
-      
+
       <form onSubmit={handleAddToCart} className="space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormInputGroup 
-            id="pickupDate" name="pickupDate" label="Дата получения" type="date" 
-            value={formData.pickupDate} onChange={handleChange} required 
+          <FormInputGroup
+            id="pickupDate" name="pickupDate" label="Дата получения" type="date"
+            value={formData.pickupDate} onChange={handleChange} required
             min={new Date().toISOString().split('T')[0]} icon="CalendarDays"
           />
-          <FormInputGroup 
-            id="returnDate" name="returnDate" label="Дата возврата" type="date" 
-            value={formData.returnDate} onChange={handleChange} required 
+          <FormInputGroup
+            id="returnDate" name="returnDate" label="Дата возврата" type="date"
+            value={formData.returnDate} onChange={handleChange} required
             min={formData.pickupDate || new Date().toISOString().split('T')[0]} icon="CalendarDays"
           />
         </div>
-                
-        <FormInputGroup 
-          id="name" name="name" label="Полное имя" type="text" 
-          placeholder="Иванов Иван Иванович" value={formData.name} 
+
+        <FormInputGroup
+          id="name" name="name" label="Полное имя" type="text"
+          placeholder="Иванов Иван Иванович" value={formData.name}
           onChange={handleChange} required icon="User"
         />
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-           <FormInputGroup 
-            id="phone" name="phone" label="Номер телефона" type="tel" 
-            placeholder="+7 (999) 000-00-00" value={formData.phone} 
+           <FormInputGroup
+            id="phone" name="phone" label="Номер телефона" type="tel"
+            placeholder="+7 (999) 000-00-00" value={formData.phone}
             onChange={handleChange} required icon="Phone"
           />
-          <FormInputGroup 
-            id="email" name="email" label="Email адрес" type="email" 
-            placeholder="example@mail.ru" value={formData.email} 
+          <FormInputGroup
+            id="email" name="email" label="Email адрес" type="email"
+            placeholder="example@mail.ru" value={formData.email}
             onChange={handleChange} icon="Mail"
           />
         </div>
 
-        <DeliveryOptionsGroup 
+        <DeliveryOptionsGroup
           value={formData.deliveryOption}
           onChange={handleDeliveryChange}
           options={deliveryOptionsData}
         />
-        
+
         <div className="space-y-3 pt-4 mt-4 border-t border-border/50">
             <Label className="flex items-center text-sm font-medium text-foreground mb-1">
                 Дополнительные опции
@@ -363,10 +364,10 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
               />
             ))}
         </div>
-        
+
         <div className="pt-5 border-t border-border/50">
           {rentalDays > 0 && (
-            <PriceDetails 
+            <PriceDetails
               rentalDays={rentalDays}
               dailyPrice={dailyPrice}
               deliveryOptionId={formData.deliveryOption}
@@ -374,11 +375,11 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
               additionalServices={{
                 childSeat: formData.childSeat,
                 personalDriver: formData.personalDriver,
-                fullTank: formData.fullTank,
+                ps5: formData.ps5
               }}
             />
           )}
-          
+
           <Button type="submit" className="w-full text-base py-3 shadow-lg bg-gradient-to-r from-primary to-green-400 hover:from-primary/90 hover:to-green-400/90 text-primary-foreground transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
             <ShoppingCart className="h-5 w-5 mr-2" /> Добавить в корзину
           </Button>

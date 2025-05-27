@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import DagestanAttractions from "@/components/DagestanAttractions";
-import { MapPin, Mountain, Waves, Castle, Utensils, Users, Sun, Aperture, Landmark, Tent } from "lucide-react";
+import { MapPin, Mountain, Waves, Castle, Utensils, Users, Sun, Aperture, Landmark } from "lucide-react";
 
 const galleryItems = [
   {
@@ -76,30 +76,34 @@ const imageVariants = {
 
 
 const AboutDagestanPage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
-    <motion.div 
+    <motion.div
       className="bg-gradient-to-b from-background via-secondary/10 to-background text-foreground"
       initial="hidden"
       animate="visible"
       variants={sectionVariants}
     >
-      {/* Hero Section */}
-      <motion.section 
-        className="relative py-32 md:py-48 text-center text-white bg-cover bg-center"
-        style={{ backgroundImage: "url(https://images.unsplash.com/photo-1680817802433-7ccbb8cae30f)" }}
+      <motion.section
+        className="relative py-32 md:py-48 text-center text-white bg-cover bg-center bg-[url('/mosque.webp')]"
         variants={sectionVariants}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="container relative z-10">
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-6xl font-extrabold mb-6 [text-shadow:0_3px_6px_rgba(0,0,0,0.3)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.5 } }}
           >
             Откройте Сердце Дагестана
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-lg md:text-xl max-w-3xl mx-auto mb-8 [text-shadow:0_2px_4px_rgba(0,0,0,0.2)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.5 } }}
@@ -118,7 +122,7 @@ const AboutDagestanPage = () => {
       </motion.section>
 
       {/* Introduction to Dagestan */}
-      <motion.section 
+      <motion.section
         className="py-16 md:py-24 bg-background"
         variants={sectionVariants}
         custom={1}
@@ -136,7 +140,7 @@ const AboutDagestanPage = () => {
       </motion.section>
 
       {/* Gallery Section */}
-      <motion.section 
+      <motion.section
         className="py-16 md:py-24 bg-secondary/30"
         variants={sectionVariants}
         custom={2}
@@ -159,8 +163,8 @@ const AboutDagestanPage = () => {
                 whileHover="hover"
               >
                 <motion.div className="relative aspect-[4/3] overflow-hidden" variants={imageVariants}>
-                  <img  
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                  <img
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     alt={item.alt}
                     src={item.src} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -175,9 +179,9 @@ const AboutDagestanPage = () => {
           </div>
         </div>
       </motion.section>
-      
+
       {/* Cultural Highlights */}
-      <motion.section 
+      <motion.section
         className="py-16 md:py-24 bg-background"
         variants={sectionVariants}
         custom={3}
@@ -189,8 +193,8 @@ const AboutDagestanPage = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-12">Культура и Традиции</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {culturalHighlights.map((highlight, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className="flex flex-col items-center text-center p-6 bg-card rounded-xl shadow-lg border border-border/50 hover:shadow-xl transition-shadow duration-300"
                 variants={sectionVariants}
                 custom={index}
@@ -221,7 +225,7 @@ const AboutDagestanPage = () => {
       </motion.div>
 
       {/* Call to Action */}
-      <motion.section 
+      <motion.section
         className="py-20 md:py-32 bg-gradient-to-r from-primary to-accent text-white"
         variants={sectionVariants}
         custom={5}

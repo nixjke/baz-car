@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Baby, UserCheck, Fuel, ShieldCheck, Gamepad2 } from 'lucide-react';
+import { Baby, UserCheck, Gamepad2 } from 'lucide-react';
 import { useParams } from "react-router-dom";
 
 
@@ -25,26 +25,6 @@ const services = [
     bgColor: 'bg-green-500/5',
     borderColor: 'border-green-500/30 hover:border-green-500/50',
     titleColor: 'text-green-600',
-  },
-  {
-    icon: Fuel,
-    title: 'Полный бак бензина',
-    description: 'Начните свое путешествие сразу, не беспокоясь о заправке. Машина будет ждать вас с полным баком.',
-    price: '4 000 ₽',
-    iconColor: 'text-orange-500',
-    bgColor: 'bg-orange-500/5',
-    borderColor: 'border-orange-500/30 hover:border-orange-500/50',
-    titleColor: 'text-orange-600',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Расширенная страховка',
-    description: 'Дополнительное спокойствие в пути. Покрывает больше рисков для беззаботной поездки.',
-    price: '2 500 ₽/день',
-    iconColor: 'text-purple-500',
-    bgColor: 'bg-purple-500/5',
-    borderColor: 'border-purple-500/30 hover:border-purple-500/50',
-    titleColor: 'text-purple-600',
   },
   {
     icon: Gamepad2,

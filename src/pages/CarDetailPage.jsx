@@ -30,6 +30,10 @@ const CarDetailPage = () => {
   const action = queryParams.get('action');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (action === 'book') {
       const bookingFormElement = document.getElementById('booking-form-section');
       if (bookingFormElement) {

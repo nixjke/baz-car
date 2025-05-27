@@ -1,6 +1,6 @@
 
-import React, { useState, useMemo, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
     Car, Star, Users, Zap, Fuel, ShoppingCart, Send, AlertTriangle, 
-    Baby, UserCheck, CreditCard, Tag 
+    Baby, UserCheck, CreditCard, Tag, Gamepad2
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/components/ui/use-toast";
@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { additionalServicesConfig, serviceFees } from "@/config/bookingOptions.js";
 
-const iconsMap = { Baby, UserCheck, Fuel, User: Users };
+const iconsMap = { Baby, UserCheck, Fuel, User: Users, Gamepad2: Gamepad2 };
 
 const CarCardImage = ({ car }) => (
   <div className="relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden group">
@@ -115,6 +115,7 @@ const CarCardFooterActions = ({ car, onQuickBook, onOpenQuickAddModal }) => {
 
 const QuickAddAdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, feeType = "fixed", iconKey }) => {
     const IconComponent = iconsMap[iconKey];
+    console.log(IconComponent)
     return (
         <div className="flex items-center space-x-2 py-1">
             <Checkbox id={`quick-${id}`} name={id} checked={checked} onCheckedChange={onCheckedChange} />
@@ -129,7 +130,7 @@ const QuickAddAdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label
     );
 };
 
-const QuickAddPriceDetails = ({ rentalDays, dailyPrice, servicesData, carPrice, carPrice3PlusDays }) => {
+const QuickAddPriceDetails = ({ rentalDays, servicesData, carPrice, carPrice3PlusDays }) => {
     if (rentalDays <= 0) return null;
 
     let currentDailyPrice = carPrice;
@@ -143,7 +144,9 @@ const QuickAddPriceDetails = ({ rentalDays, dailyPrice, servicesData, carPrice, 
     if (servicesData.youngDriver) servicesCost += serviceFees.youngDriver;
     if (servicesData.childSeat) servicesCost += serviceFees.childSeat;
     if (servicesData.personalDriver) servicesCost += serviceFees.personalDriver * rentalDays;
-    if (servicesData.fullTank) servicesCost += serviceFees.fullTank;
+    if (servicesData.ps5) servicesCost += serviceFees.ps5;
+
+    console.log(":test")
 
     const totalAmount = rentalCost + servicesCost;
 
@@ -249,7 +252,7 @@ const QuickAddModal = ({ isOpen, onOpenChange, car, quickAddData, onInputChange,
                             youngDriver: quickAddData.youngDriver,
                             childSeat: quickAddData.childSeat,
                             personalDriver: quickAddData.personalDriver,
-                            fullTank: quickAddData.fullTank
+                            ps5: quickAddData.ps5
                         }}
                         carPrice={car.price}
                         carPrice3PlusDays={car.price_3plus_days}
@@ -283,7 +286,7 @@ const CarCard = ({ car }) => {
     youngDriver: false,
     childSeat: false,
     personalDriver: false,
-    fullTank: false,
+    ps5: false,
   };
   const [quickAddData, setQuickAddData] = React.useState(initialQuickAddData);
 
@@ -342,6 +345,7 @@ const CarCard = ({ car }) => {
       childSeat: quickAddData.childSeat, 
       personalDriver: quickAddData.personalDriver, 
       fullTank: quickAddData.fullTank,
+      ps5: quickAddData.ps5,
       rentalDays, 
       dailyPrice,
     };

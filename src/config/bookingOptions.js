@@ -6,10 +6,9 @@ export const deliveryOptionsData = [
 ];
 
 export const serviceFees = {
-  youngDriver: 2000, // fixed
-  childSeat: 1500,   // fixed, per rental
-  personalDriver: 5000, // per day
-  fullTank: 4000,    // fixed, per rental
+  youngDriver: 2000,
+  childSeat: 700,
+  personalDriver: 5000,
 };
 
 export const additionalServicesConfig = [
@@ -33,12 +32,5 @@ export const additionalServicesConfig = [
     fee: serviceFees.personalDriver,
     feeType: "daily",
     iconKey: "UserCheck",
-  },
-  {
-    id: "fullTank",
-    label: "Полный бак бензина",
-    fee: serviceFees.fullTank,
-    feeType: "fixed",
-    iconKey: "Fuel",
   },
 ];
