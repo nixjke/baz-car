@@ -43,9 +43,10 @@ const calculateItemPrice = (item) => {
   const youngDriverCost = item.youngDriver ? 2000 : 0;
   
   let additionalServicesCost = 0;
-  if (item.childSeat) additionalServicesCost += 1500; // childSeatFee
+  if (item.childSeat) additionalServicesCost += 700;
+  if (item.youngDriver) additionalServicesCost += 2000;
   if (item.personalDriver && rentalDays > 0) additionalServicesCost += 5000 * rentalDays; // personalDriverFee * rentalDays
-  if (item.fullTank) additionalServicesCost += 4000; // fullTankFee
+  if (item.ps5) additionalServicesCost += 1000;
 
   return rentalCost + deliveryCost + youngDriverCost + additionalServicesCost;
 };

@@ -63,6 +63,9 @@ const CartPage = () => {
       if (item.personalDriver) {
         message += `  Личный водитель: Да (+${(5000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)\n`;
       }
+      if (item.ps5) {
+        message += `  PlayStation 5: Да (+${(1000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)\n`;
+      }
 
       message += `  Стоимость позиции: ${item.totalPrice.toLocaleString('ru-RU')} ₽\n\n`;
     });

@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -113,9 +112,12 @@ const CarCardFooterActions = ({ car, onQuickBook, onOpenQuickAddModal }) => {
   );
 };
 
-const QuickAddAdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, feeType = "fixed", iconKey }) => {
+const QuickAddAdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, feeType = "fixed", iconKey, carId }) => {
+    if (id === 'ps5' && carId !== 3) {
+        return null;
+    }
     const IconComponent = iconsMap[iconKey];
-    console.log(IconComponent)
+
     return (
         <div className="flex items-center space-x-2 py-1">
             <Checkbox id={`quick-${id}`} name={id} checked={checked} onCheckedChange={onCheckedChange} />
@@ -145,8 +147,6 @@ const QuickAddPriceDetails = ({ rentalDays, servicesData, carPrice, carPrice3Plu
     if (servicesData.childSeat) servicesCost += serviceFees.childSeat;
     if (servicesData.personalDriver) servicesCost += serviceFees.personalDriver * rentalDays;
     if (servicesData.ps5) servicesCost += serviceFees.ps5;
-
-    console.log(":test")
 
     const totalAmount = rentalCost + servicesCost;
 
@@ -240,6 +240,7 @@ const QuickAddModal = ({ isOpen, onOpenChange, car, quickAddData, onInputChange,
                                     fee={service.fee}
                                     feeType={service.feeType}
                                     iconKey={service.iconKey}
+                                    carId={car.id}
                                 />
                             ))}
                         </div>

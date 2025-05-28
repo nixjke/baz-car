@@ -9,6 +9,7 @@ export const serviceFees = {
   youngDriver: 2000,
   childSeat: 700,
   personalDriver: 5000,
+  ps5: 1000
 };
 
 export const additionalServicesConfig = [
@@ -32,5 +33,12 @@ export const additionalServicesConfig = [
     fee: serviceFees.personalDriver,
     feeType: "daily",
     iconKey: "UserCheck",
+  },
+  {
+    id: "ps5",
+    label: "PlayStation 5",
+    fee: serviceFees.ps5,
+    feeType: "daily",
+    iconKey: "Gamepad2",
   },
 ];

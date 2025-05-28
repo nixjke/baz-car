@@ -33,8 +33,6 @@ const swipePower = (offset, velocity) => {
 const ImageCarousel = ({ images, carName }) => {
   const [[page, direction], setPage] = useState([0, 0]);
 
-    console.log(images)
-
   const imageIndex = ((page % images.length) + images.length) % images.length;
 
   const paginate = (newDirection) => {

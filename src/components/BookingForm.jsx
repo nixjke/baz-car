@@ -100,8 +100,12 @@ const DeliveryOptionsGroup = ({ value, onChange, options }) => (
   </div>
 );
 
-const AdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, feeType = "fixed", icon: IconKey }) => {
+const AdditionalServiceCheckbox = ({ id, checked, onCheckedChange, label, fee, feeType = "fixed", icon: IconKey, carId }) => {
+  if (id === 'ps5' && carId !== 3) {
+    return null;
+  }
   const IconComponent = iconsMap[IconKey];
+
   return (
     <div className="flex items-center space-x-2">
         <Checkbox
@@ -171,7 +175,7 @@ const PriceDetails = ({ rentalDays, dailyPrice, deliveryOptionId, youngDriver, a
         )}
         {additionalServices.ps5 && (
           <div className="flex justify-between items-center text-sm">
-            <span className="text-muted-foreground">Полный бак:</span>
+            <span className="text-muted-foreground">PlayStation 5</span>
             <span className="text-foreground">+{serviceFees.ps5.toLocaleString('ru-RU')} ₽</span>
           </div>
         )}
@@ -290,7 +294,7 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
       youngDriver: formData.youngDriver,
       childSeat: formData.childSeat,
       personalDriver: formData.personalDriver,
-      fullTank: formData.fullTank,
+      ps5: formData.ps5,
       rentalDays: rentalDays,
       dailyPrice: dailyPrice,
     };
@@ -361,6 +365,7 @@ const BookingForm = ({ car, price, price3PlusDays }) => {
                 fee={service.fee}
                 feeType={service.feeType}
                 icon={service.iconKey}
+                carId={car.id}
               />
             ))}
         </div>
