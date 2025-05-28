@@ -86,17 +86,9 @@ const Footer = () => {
 
           <motion.div variants={itemVariants} className="space-y-4">
             <p className="text-lg font-semibold text-foreground mb-5">Контакты</p>
-            <div className="flex items-start space-x-3 text-sm text-muted-foreground">
-              <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-              <span>ул. Имама Шамиля, 42, Махачкала, Дагестан, Россия</span>
-            </div>
             <div className="flex items-center space-x-3 text-sm text-muted-foreground">
               <Phone className="h-4 w-4 text-primary shrink-0" />
               <a href="tel:+79281234567" className="hover:text-primary hover:underline">+7 (928) 123-45-67</a>
-            </div>
-            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-              <Mail className="h-4 w-4 text-primary shrink-0" />
-              <a href="mailto:info@bazcar.ru" className="hover:text-primary hover:underline">info@bazcar.ru</a>
             </div>
           </motion.div>
 

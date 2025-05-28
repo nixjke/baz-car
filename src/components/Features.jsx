@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Clock, MapPin, Award } from "lucide-react";
+import { Shield, Clock, MapPin, Award, UserCheck } from "lucide-react";
 
 const featuresData = [
   {
@@ -15,15 +15,21 @@ const featuresData = [
   },
   {
     icon: <MapPin className="h-6 w-6" />,
-    title: "Помощь с маршрутами" ,
+    title: "Помощь с маршрутами",
     description: "Подскажем лучшие туристические маршруты по Дагестану и дорожные условия."
   },
   {
     icon: <Award className="h-6 w-6" />,
     title: "Гарантия Качества",
     description: "Все наши автомобили проходят строгие проверки технического обслуживания для обеспечения максимальной производительности."
+  },
+  {
+    icon: <UserCheck className="h-6 w-6" />, // используем подходящую иконку
+    title: "Условие Аренды",
+    description: "Единственное условие аренды — вам должно быть не менее 21 года."
   }
 ];
+
 
 const Features = () => {
   return (
@@ -42,7 +48,7 @@ const Features = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {featuresData.map((feature, index) => (
             <motion.div
               key={index}

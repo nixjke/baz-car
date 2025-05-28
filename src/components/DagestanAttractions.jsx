@@ -159,8 +159,6 @@ const DagestanAttractions = () => {
             onMouseEnter={() => setIsHoveringNav("left")}
             onMouseLeave={() => setIsHoveringNav(null)}
             onClick={() => changePage(-1)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
           >
             <ChevronLeft className="h-6 w-6 md:h-8 md:w-8 text-primary" />
           </motion.div>
@@ -206,8 +204,6 @@ const DagestanAttractions = () => {
             onMouseEnter={() => setIsHoveringNav("right")}
             onMouseLeave={() => setIsHoveringNav(null)}
             onClick={() => changePage(1)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
           >
             <ChevronRight className="h-6 w-6 md:h-8 md:w-8 text-primary" />
           </motion.div>

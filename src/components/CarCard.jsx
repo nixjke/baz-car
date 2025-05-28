@@ -82,7 +82,7 @@ const CarCardMainContent = ({ car }) => (
 );
 
 const CarCardFooterActions = ({ car, onQuickBook, onOpenQuickAddModal }) => {
-  const displayPrice = car.price_3plus_days ? car.price_3plus_days : car.price;
+  const displayPrice = car.price ? car.price : car.price_3plus_days;
   return (
     <CardFooter className="p-3 sm:p-4 border-t border-border/50 flex flex-col items-stretch space-y-2 sm:space-y-3 bg-secondary/40">
       <div className="flex justify-between items-center">
