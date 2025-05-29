@@ -58,7 +58,7 @@ const CartPage = () => {
         message += `  Молодой водитель: Да (+${2000 .toLocaleString('ru-RU')} ₽)\n`;
       }
       if (item.childSeat) {
-        message += `  Детское кресло: Да (+${1500 .toLocaleString('ru-RU')} ₽)\n`;
+        message += `  Детское кресло: Да (+${700 .toLocaleString('ru-RU')} ₽)\n`;
       }
       if (item.personalDriver) {
         message += `  Личный водитель: Да (+${(5000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)\n`;
@@ -175,13 +175,12 @@ const CartPage = () => {
                           <p><strong className="text-foreground">Молодой водитель:</strong> {item.youngDriver ? `Да (+${2000 .toLocaleString('ru-RU')} ₽)` : 'Нет'}</p>
                         </div>
                       </div>
-                      {(item.childSeat || item.personalDriver || item.fullTank) && (
+                      {(item.childSeat || item.personalDriver) && (
                         <div className="mt-3 pt-3 border-t border-border/30">
                           <p className="font-semibold text-foreground mb-1.5">Доп. услуги:</p>
                           <ul className="space-y-0.5">
-                            {item.childSeat && <li className="flex items-center text-muted-foreground"><Baby className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Детское кресло (+{1500 .toLocaleString('ru-RU')} ₽)</li>}
+                            {item.childSeat && <li className="flex items-center text-muted-foreground"><Baby className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Детское кресло (+{700 .toLocaleString('ru-RU')} ₽)</li>}
                             {item.personalDriver && <li className="flex items-center text-muted-foreground"><UserCheck className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Личный водитель (+{(5000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)</li>}
-                            {item.fullTank && <li className="flex items-center text-muted-foreground"><Fuel className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Полный бак (+{4000 .toLocaleString('ru-RU')} ₽)</li>}
                           </ul>
                         </div>
                       )}

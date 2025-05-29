@@ -10,7 +10,7 @@ const services = [
     icon: Baby,
     title: 'Детское кресло',
     description: 'Безопасность и комфорт для ваших маленьких пассажиров. Устанавливается по запросу.',
-    price: '1 500 ₽ (на весь срок)',
+    price: '700 ₽ (на весь срок)',
     iconColor: 'text-blue-500',
     bgColor: 'bg-blue-500/5',
     borderColor: 'border-blue-500/30 hover:border-blue-500/50',
