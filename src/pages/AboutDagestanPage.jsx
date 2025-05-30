@@ -10,7 +10,7 @@ const galleryItems = [
     title: "Величественные Горы",
     description: "Покоряйте вершины, наслаждайтесь панорамными видами и чистейшим горным воздухом. Дагестанские горы ждут своих исследователей.",
     imageKey: "majestic-mountains-dagestan",
-    src: "/gallery/sulsky.jpg",
+    src: "/gallery/sulsky.webp",
     icon: Mountain,
     alt: "Величественные горы Дагестана на рассвете"
   },
@@ -18,7 +18,7 @@ const galleryItems = [
     title: "Древний Дербент",
     description: "Посетите один из старейших городов мира, его цитадель Нарын-Кала и уникальные магалы, хранящие тайны веков.",
     imageKey: "ancient-derbent-citadel",
-    src: "/gallery/derbent.jpg",
+    src: "/gallery/derbent.webp",
     icon: Castle,
     alt: "Древняя крепость Нарын-Кала в Дербенте"
   },
@@ -26,7 +26,7 @@ const galleryItems = [
     title: "Ласковый Каспий",
     description: "Отдохните на побережье Каспийского моря, насладитесь солнцем, золотистым песком и освежающими волнами.",
     imageKey: "caspian-sea-beach-dagestan",
-    src: "/gallery/kaspy.jpg",
+    src: "/gallery/kaspy.webp",
     icon: Waves,
     alt: "Песчаный пляж Каспийского моря в Дагестане"
   },
@@ -34,7 +34,7 @@ const galleryItems = [
     title: "Сулакский Каньон",
     description: "Полюбуйтесь одним из глубочайших каньонов мира, его бирюзовыми водами и захватывающими дух пейзажами.",
     imageKey: "sulak-canyon-dagestan",
-    src: "/gallery/sulasky.jpg",
+    src: "/gallery/sulasky.webp",
     icon: Aperture,
     alt: "Захватывающий вид на Сулакский каньон"
   },

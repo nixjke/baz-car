@@ -27,7 +27,7 @@ const DressCodeInfo = () => {
       title: "Для женщин",
       points: ["Одежда ниже колен", "Закрытые плечи", "Не обтягивающее"],
       imageKey: "woman-modest-dress-mountains",
-      src: "/dress/dress-2.jpg",
+      src: "/dress/dress-2.webp",
       bgColor: "bg-pink-100/70",
       textColor: "text-pink-700",
       borderColor: "border-pink-300"
@@ -36,7 +36,7 @@ const DressCodeInfo = () => {
       title: "Для мужчин",
       points: ["Брюки или длинные шорты", "Рубашки/футболки", "В храмах – длинный рукав"],
       imageKey: "man-respectful-attire-city",
-      src: "/dress/dress-3.jpg",
+      src: "/dress/dress-3.webp",
       bgColor: "bg-blue-100/70",
       textColor: "text-blue-700",
       borderColor: "border-blue-300"
@@ -45,7 +45,7 @@ const DressCodeInfo = () => {
       title: "Общие правила",
       points: ["Избегать: коротких юбок/шорт", "Избегать: глубоких декольте", "Уважение к традициям"],
       imageKey: "cultural-symbols-fabric",
-      src: "/dress/dress-1.jpg",
+      src: "/dress/dress-1.webp",
       bgColor: "bg-green-100/70",
       textColor: "text-green-700",
       borderColor: "border-green-300"
@@ -54,7 +54,7 @@ const DressCodeInfo = () => {
       title: "Пляжный этикет",
       points: ["Купальники – только на пляже", "Скромность при выходе в город", "Прикрываться при необходимости"],
       imageKey: "beach-sunset-silhouette-modest",
-      src: "/dress/dress-4.jpg",
+      src: "/dress/dress-4.webp",
       bgColor: "bg-yellow-100/70",
       textColor: "text-yellow-700",
       borderColor: "border-yellow-300"

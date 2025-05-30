@@ -7,42 +7,42 @@ const attractionsData = [
     name: "Сулакский каньон",
     description: "Один из самых глубоких каньонов в мире, поражающий своими масштабами и красотой.",
     imageKey: "sulak-canyon",
-    src: "/attractions/sulaksky-kanyon.jpg",
+    src: "/attractions/sulaksky-kanyon.webp",
     accentColor: "hsl(190, 70%, 50%)" 
   },
   {
     name: "Дербентская крепость Нарын-Кала",
     description: "Древняя цитадель, входящая в список Всемирного наследия ЮНЕСКО.",
     imageKey: "naryn-kala",
-    src: "/attractions/derbent.jpg",
+    src: "/attractions/derbent.webp",
     accentColor: "hsl(30, 70%, 50%)"
   },
   {
     name: "Аул-призрак Гамсутль",
     description: "Заброшенное высокогорное село с уникальной архитектурой и атмосферой.",
     imageKey: "gamsutl",
-    src: "/attractions/gamsutl.jpg",
+    src: "/attractions/gamsutl.webp",
     accentColor: "hsl(70, 30%, 45%)"
   },
   {
     name: "Бархан Сарыкум",
     description: "Уникальный песчаный массив, крупнейший в Европе, кусочек пустыни среди гор.",
     imageKey: "sarykum",
-    src: "/attractions/barhan.jpg",
+    src: "/attractions/barhan.webp",
     accentColor: "hsl(40, 80%, 60%)"
   },
   {
     name: "Хунзахское плато и водопад Тобот",
     description: "Живописное плато с отвесными скалами и мощным водопадом.",
     imageKey: "tobot-waterfall",
-    src: "/attractions/tabot.jpg",
+    src: "/attractions/tabot.webp",
     accentColor: "hsl(220, 60%, 60%)"
   },
   {
     name: "Карадахская теснина",
     description: "Узкое и извилистое ущелье, создающее впечатление сказочного мира.",
     imageKey: "karadakh-gorge",
-    src: "/attractions/kardah-tesina.jpg",
+    src: "/attractions/kardah-tesina.webp",
     accentColor: "hsl(160, 40%, 40%)"
   }
 ];
