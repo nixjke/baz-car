@@ -18,7 +18,11 @@ import {
   ArrowLeft,
   Star,
   CheckCircle,
-  Tag
+  Tag,
+  AlertTriangle,
+  UserCheck,
+  Mountain,
+  CreditCard
 } from "lucide-react";
 
 const CarDetailPage = () => {
@@ -181,6 +185,28 @@ const CarDetailPage = () => {
                 ))}
               </div>
             </motion.div>
+
+            {car.restrictions && (
+              <motion.div variants={itemVariants(6.2)} className="p-6 bg-card rounded-lg shadow-lg border border-border/50 mb-10">
+                <h2 className="text-3xl font-bold text-foreground mb-5">Условия аренды</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                  {[
+                    { icon: UserCheck, label: "Возраст", value: car.restrictions.age },
+                    { icon: UserCheck, label: "Стаж вождения", value: car.restrictions.experience },
+                    { icon: CreditCard, label: "Залог", value: car.restrictions.deposit },
+                    { icon: Mountain, label: "Поездки в горы", value: car.restrictions.mountainDriving }
+                  ].map((restriction, index) => (
+                    <div key={index} className="spec-item flex items-center">
+                      <restriction.icon className="h-6 w-6 text-primary mr-3 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm text-muted-foreground">{restriction.label}</p>
+                        <p className="font-semibold text-foreground text-md">{restriction.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
             <motion.div variants={itemVariants(6.5)}>
                  <AdditionalServicesSection onCarDetailPage={true} />
