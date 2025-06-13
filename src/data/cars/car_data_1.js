@@ -1,11 +1,11 @@
 export const car_data_1 = [
     {
         "id": 1,
-        "name": "Li L6 (Слоновая кость)",
+        "name": "LiXiang L6 Pro (Cлоновья кость)",
         "category": "Premium Electric",
         "category_ru": "Премиум",
-        "price": 13_500,
-        "price_3plus_days": 12_150,
+        "price": 15900,
+        "price_3plus_days": 14310,
         "images": [
             "/li6-white/13G08602.webp",
             "/li6-white/13G08521.webp",
@@ -51,11 +51,11 @@ export const car_data_1 = [
     },
     {
         id: 3,
-        name: "Li L7 (Черная)",
+        name: "LiXiang L7",
         category: "Luxury SUV",
         category_ru: "Люкс",
-        price: 16_200,
-        price_3plus_days: 14_400,
+        price: 17900,
+        price_3plus_days: 16110,
         images: [
             "/li7-black/13G08240.webp",
             "/li7-black/13G07765.webp",
@@ -102,11 +102,11 @@ export const car_data_1 = [
     },
     {
         id: 4,
-        name: "Toyota Land Cruiser 200",
+        name: "Toyota Land Cruiser 200 (Черный)",
         category: "Luxury SUV",
         category_ru: "Люкс",
-        price: 9_000,
-        price_3plus_days: 7_650,
+        price: 13900,
+        price_3plus_days: 12510,
         images: [
             "/land-cruiser-200/13G07972.webp",
             "/land-cruiser-200/13G08009.webp",
@@ -157,8 +157,8 @@ export const car_data_1 = [
         name: "Geely Monjaro",
         category: "Hybrid SUV",
         category_ru: "Гибрид",
-        price: 7_020,
-        price_3plus_days: 5_850,
+        price: 8500,
+        price_3plus_days: 7650,
         images: [
             "/geely-monjaro/13G08098.webp",
             "/geely-monjaro/13G08114.webp",
@@ -205,7 +205,7 @@ export const car_data_1 = [
         name: "Lexus IS F",
         category: "Premium Sedan",
         category_ru: "Премиум",
-        price: 23_000,
+        price: 30000,
         price_3plus_days: null,
         images: [
             "/lexus-is-f/13G08882.webp",
@@ -261,8 +261,8 @@ export const car_data_1 = [
         name: "Li L6 (Серая)",
         category: "Premium Electric",
         category_ru: "Премиум",
-        price: 13_500,
-        price_3plus_days: 12_150,
+        price: 15900,
+        price_3plus_days: 14310,
         images: [
             "/li-6-gray/imhcwng5asti2dh10wtn.webp",
             "/li-6-gray/d6g5obv5ruuomyfnxpoa.webp",
@@ -315,8 +315,8 @@ export const car_data_1 = [
         name: "Lexus 570",
         category: "Luxury SUV",
         category_ru: "Люкс",
-        price: 12_150,
-        price_3plus_days: 10_800,
+        price: 14900,
+        price_3plus_days: 13410,
         images: [
             "/lexus-570/curhh7impfkenfbnsp0y.webp",
             "/lexus-570/da81uiarnrmxxtcmsr0t.webp",

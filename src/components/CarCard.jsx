@@ -145,8 +145,9 @@ const QuickAddPriceDetails = ({ rentalDays, servicesData, carPrice, carPrice3Plu
     let servicesCost = 0;
     if (servicesData.youngDriver) servicesCost += serviceFees.youngDriver;
     if (servicesData.childSeat) servicesCost += serviceFees.childSeat;
-    if (servicesData.personalDriver) servicesCost += serviceFees.personalDriver * rentalDays;
+    if (servicesData.personalDriver) servicesCost += serviceFees.personalDriver;
     if (servicesData.ps5) servicesCost += serviceFees.ps5;
+    if (servicesData.transmission) servicesCost += serviceFees.transmission;
 
     const totalAmount = rentalCost + servicesCost;
 
@@ -165,7 +166,7 @@ const QuickAddPriceDetails = ({ rentalDays, servicesData, carPrice, carPrice3Plu
                 if (value && serviceFees[key]) {
                     const serviceConfig = additionalServicesConfig.find(s => s.id === key);
                     if (!serviceConfig) return null;
-                    const cost = serviceConfig.feeType === 'daily' ? serviceConfig.fee * rentalDays : serviceConfig.fee;
+                    const cost = serviceConfig.fee;
                     return (
                         <div key={key} className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">{serviceConfig.label.split('(')[0].trim()}:</span>
@@ -253,7 +254,8 @@ const QuickAddModal = ({ isOpen, onOpenChange, car, quickAddData, onInputChange,
                             youngDriver: quickAddData.youngDriver,
                             childSeat: quickAddData.childSeat,
                             personalDriver: quickAddData.personalDriver,
-                            ps5: quickAddData.ps5
+                            ps5: quickAddData.ps5,
+                            transmission: quickAddData.transmission
                         }}
                         carPrice={car.price}
                         carPrice3PlusDays={car.price_3plus_days}
@@ -288,6 +290,7 @@ const CarCard = ({ car }) => {
     childSeat: false,
     personalDriver: false,
     ps5: false,
+    transmission: false,
   };
   const [quickAddData, setQuickAddData] = React.useState(initialQuickAddData);
 
@@ -339,20 +342,20 @@ const CarCard = ({ car }) => {
       pickupDate: quickAddData.pickupDate, 
       returnDate: quickAddData.returnDate, 
       name: quickAddData.name, 
-      email: "", // Email is optional for quick add
+      email: "",
       phone: quickAddData.phone,
-      deliveryOption: { id: "pickup", label: "Самовывоз", price: 0 }, // Default for quick add
+      deliveryOption: { id: "pickup", label: "Самовывоз", price: 0 },
       youngDriver: quickAddData.youngDriver, 
       childSeat: quickAddData.childSeat, 
       personalDriver: quickAddData.personalDriver, 
-      fullTank: quickAddData.fullTank,
       ps5: quickAddData.ps5,
+      transmission: quickAddData.transmission,
       rentalDays, 
       dailyPrice,
     };
     addToCart(cartItem);
     setIsModalOpen(false);
-    setQuickAddData(initialQuickAddData); // Reset form
+    setQuickAddData(initialQuickAddData); 
   };
 
   const handleQuickBook = (e) => {

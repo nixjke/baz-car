@@ -12,8 +12,9 @@ import { Button } from "@/components/ui/button";
 const CarsPage = () => {
   const location = useLocation();
 
-  const maxPrice = Math.max(...cars.map(car => car.price), 10000); 
-  const minPrice = Math.min(...cars.map(car => car.price), 0);
+  const prices = cars.map(car => car.price).filter(price => typeof price === 'number');
+  const maxPrice = prices.length > 0 ? Math.max(...prices) : 10000; 
+  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedFuelTypes, setSelectedFuelTypes] = React.useState([]);
@@ -30,7 +31,7 @@ const CarsPage = () => {
                           car.description_ru.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFuelType = selectedFuelTypes.length === 0 ? true : selectedFuelTypes.includes(car.fuelType);
     
-    const effectivePrice = car.price_3plus_days ? car.price_3plus_days : car.price;
+    const effectivePrice = typeof car.price_3plus_days === 'number' && car.price_3plus_days !== null ? car.price_3plus_days : (typeof car.price === 'number' ? car.price : 0);
     const matchesPrice = effectivePrice >= priceRange[0] && effectivePrice <= priceRange[1];
     
     return matchesSearch && matchesFuelType && matchesPrice;
@@ -48,6 +49,8 @@ const CarsPage = () => {
     const newRange = [...priceRange];
     let value = parseInt(e.target.value);
     if (isNaN(value)) value = index === 0 ? minPrice : maxPrice;
+    // Ensure value is within bounds of minPrice and maxPrice
+    value = Math.max(minPrice, Math.min(value, maxPrice));
 
     newRange[index] = value;
     if (index === 0 && newRange[0] > newRange[1]) newRange[1] = newRange[0];

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,8 +5,11 @@ import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Trash2, Edit3, ShoppingBag, ArrowLeft, Info, Tag, Baby, UserCheck, Fuel } from "lucide-react";
+import { Trash2, Edit3, ShoppingBag, ArrowLeft, Info, Tag, Baby, UserCheck, Gamepad2, Settings, User } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { additionalServicesConfig, serviceFees } from '@/config/bookingOptions';
+
+const QR_CODE_STORAGE_KEY = 'bazcar_qr_code';
 
 const CartPage = () => {
   const { cartItems, removeFromCart, getCartTotal, clearCart } = useCart();
@@ -27,58 +29,58 @@ const CartPage = () => {
     if (cartItems.length === 0) {
       toast({
         title: "Корзина пуста",
-        description: "Пожалуйста, добавьте автомобили в корзину перед оформлением.",
+        description: "Добавьте автомобили в корзину перед оформлением заказа",
         variant: "destructive",
       });
       return;
     }
 
-    let message = "Здравствуйте! Хочу забронировать следующие автомобили BazCar:\n\n";
-    let firstContactName = "";
-    let firstContactPhone = "";
-    let firstContactEmail = "";
+    const whatsappNumber = "79894413888"; // Replace with your actual WhatsApp number
 
+    let message = "Здравствуйте! Я хочу оформить заказ на аренду автомобилей:\n\n";
+    
     cartItems.forEach((item, index) => {
-      if (index === 0) {
-        firstContactName = item.name || 'Не указано';
-        firstContactPhone = item.phone || 'Не указан';
-        firstContactEmail = item.email || 'Не указан';
-      }
-
-      message += `ПОЗИЦИЯ ${index + 1}:\n`;
-      message += `  Машина: ${item.car.name}\n`;
-      message += `  Даты: ${item.pickupDate} - ${item.returnDate} (${item.rentalDays} дн.)\n`;
-      message += `  Цена за день: ${item.dailyPrice.toLocaleString('ru-RU')} ₽\n`;
+      message += `${index + 1}. ${item.car.name}\n`;
+      message += `   Период: ${new Date(item.pickupDate).toLocaleDateString()} - ${new Date(item.returnDate).toLocaleDateString()}\n`;
+      message += `   Стоимость: ${item.totalPrice.toLocaleString('ru-RU')} ₽\n`;
       if (item.deliveryOption && item.deliveryOption.price > 0) {
-        message += `  Доставка: ${item.deliveryOption.label} (+${item.deliveryOption.price.toLocaleString('ru-RU')} ₽)\n`;
-      } else if (item.deliveryOption) {
-        message += `  Способ получения: ${item.deliveryOption.label}\n`;
-      }
-      if (item.youngDriver) {
-        message += `  Молодой водитель: Да (+${2000 .toLocaleString('ru-RU')} ₽)\n`;
-      }
-      if (item.childSeat) {
-        message += `  Детское кресло: Да (+${700 .toLocaleString('ru-RU')} ₽)\n`;
-      }
-      if (item.personalDriver) {
-        message += `  Личный водитель: Да (+${(5000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)\n`;
-      }
-      if (item.ps5) {
-        message += `  PlayStation 5: Да (+${(1000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)\n`;
+        message += `   Доставка: ${item.deliveryOption.label} (+${item.deliveryOption.price.toLocaleString('ru-RU')} ₽)\n`;
       }
 
-      message += `  Стоимость позиции: ${item.totalPrice.toLocaleString('ru-RU')} ₽\n\n`;
+      const selectedAdditionalServices = additionalServicesConfig.filter(service => item[service.id]);
+
+      if (selectedAdditionalServices.length > 0) {
+        message += `   Доп. услуги:\n`;
+        selectedAdditionalServices.forEach(service => {
+          const serviceCost = service.feeType === 'daily' ? service.fee * item.rentalDays : service.fee;
+          message += `     - ${service.label} (+${serviceCost.toLocaleString('ru-RU')} ₽)\n`;
+        });
+      }
+      message += `\n`;
     });
 
-    message += `ОБЩАЯ СУММА ЗАКАЗА: ${getCartTotal().toLocaleString('ru-RU')} ₽\n`;
-    message += `\nКонтактное лицо: ${firstContactName}\n`;
-    message += `Телефон: ${firstContactPhone}\n`;
-    message += `Email: ${firstContactEmail}\n`;
+    message += `Итого: ${getCartTotal().toLocaleString('ru-RU')} ₽\n\n`;
+    message += "Контактная информация:\n";
+    message += `Имя: ${cartItems[0].name}\n`;
+    message += `Телефон: ${cartItems[0].phone}\n`;
+    if (cartItems[0].email) {
+      message += `Email: ${cartItems[0].email}\n`;
+    }
 
+    // Check for QR code in localStorage
+    const qrCodeData = localStorage.getItem(QR_CODE_STORAGE_KEY);
+    if (qrCodeData) {
+      try {
+        const { code, discount } = JSON.parse(qrCodeData);
+        message += "\n---\n";
+        message += `Код скидки: ${code}\n`;
+        message += `Размер скидки: ${discount}%\n`;
+      } catch (error) {
+        console.error('Error parsing QR code data:', error);
+      }
+    }
 
-    const whatsappNumber = "+79894413888";
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
     window.open(whatsappUrl, '_blank');
     
     toast({
@@ -172,15 +174,17 @@ const CartPage = () => {
                         </div>
                         <div>
                           <p><strong className="text-foreground">Доставка:</strong> {item.deliveryOption.label} ({item.deliveryOption.price > 0 ? `+${item.deliveryOption.price.toLocaleString('ru-RU')} ₽` : 'Бесплатно'})</p>
-                          <p><strong className="text-foreground">Молодой водитель:</strong> {item.youngDriver ? `Да (+${2000 .toLocaleString('ru-RU')} ₽)` : 'Нет'}</p>
                         </div>
                       </div>
-                      {(item.childSeat || item.personalDriver) && (
+                      {(item.childSeat || item.personalDriver || item.ps5 || item.transmission || item.youngDriver) && (
                         <div className="mt-3 pt-3 border-t border-border/30">
                           <p className="font-semibold text-foreground mb-1.5">Доп. услуги:</p>
                           <ul className="space-y-0.5">
-                            {item.childSeat && <li className="flex items-center text-muted-foreground"><Baby className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Детское кресло (+{700 .toLocaleString('ru-RU')} ₽)</li>}
-                            {item.personalDriver && <li className="flex items-center text-muted-foreground"><UserCheck className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Личный водитель (+{(5000 * item.rentalDays) .toLocaleString('ru-RU')} ₽)</li>}
+                            {item.youngDriver && <li className="flex items-center text-muted-foreground"><User className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Молодой водитель (+{serviceFees.youngDriver.toLocaleString('ru-RU')} ₽)</li>}
+                            {item.childSeat && <li className="flex items-center text-muted-foreground"><Baby className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Детское кресло (+{serviceFees.childSeat.toLocaleString('ru-RU')} ₽)</li>}
+                            {item.personalDriver && <li className="flex items-center text-muted-foreground"><UserCheck className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Личный водитель (+{serviceFees.personalDriver.toLocaleString('ru-RU')} ₽)</li>}
+                            {item.ps5 && <li className="flex items-center text-muted-foreground"><Gamepad2 className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>PlayStation 5 (+{serviceFees.ps5.toLocaleString('ru-RU')} ₽)</li>}
+                            {item.transmission && <li className="flex items-center text-muted-foreground"><Settings className="h-3.5 w-3.5 mr-1.5 text-primary/80"/>Передача руля (+{serviceFees.transmission.toLocaleString('ru-RU')} ₽)</li>}
                           </ul>
                         </div>
                       )}

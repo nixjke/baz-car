@@ -1,42 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Baby, UserCheck, Gamepad2 } from 'lucide-react';
+import { Baby, UserCheck, Gamepad2, Settings, User } from 'lucide-react';
 import { useParams } from "react-router-dom";
+import { additionalServicesConfig, serviceFees } from '@/config/bookingOptions';
 
+const iconsMap = { Baby, UserCheck, Gamepad2, Settings, User };
 
-const services = [
-  {
-    icon: Baby,
-    title: 'Детское кресло',
-    description: 'Безопасность и комфорт для ваших маленьких пассажиров. Устанавливается по запросу.',
-    price: '700 ₽ (на весь срок)',
-    iconColor: 'text-blue-500',
-    bgColor: 'bg-blue-500/5',
-    borderColor: 'border-blue-500/30 hover:border-blue-500/50',
-    titleColor: 'text-blue-600',
-  },
-  {
-    icon: UserCheck,
-    title: 'Личный водитель',
-    description: 'Наслаждайтесь поездкой, доверив управление профессионалу. Идеально для деловых поездок.',
-    price: '5 000 ₽/день',
-    iconColor: 'text-green-500',
-    bgColor: 'bg-green-500/5',
-    borderColor: 'border-green-500/30 hover:border-green-500/50',
-    titleColor: 'text-green-600',
-  },
-  {
-    icon: Gamepad2,
-    title: 'PlayStation 5',
-    description: 'Развлечения в дороге для детей и взрослых. В вашем распоряжении PS5 с предустановленной коллекцией популярных игр - готовые решения для любого настроения!',
-    price: '1 000 ₽/день',
-    iconColor: 'text-red-500',
-    bgColor: 'bg-red-500/5',
-    borderColor: 'border-red-500/30 hover:border-red-500/50',
-    titleColor: 'text-red-600',
+// Helper function to get dynamic styles for each service
+const getServiceStyles = (serviceId) => {
+  switch (serviceId) {
+    case 'youngDriver':
+      return { iconColor: 'text-blue-500', bgColor: 'bg-blue-500/5', borderColor: 'border-blue-500/30 hover:border-blue-500/50', titleColor: 'text-blue-600' };
+    case 'childSeat':
+      return { iconColor: 'text-green-500', bgColor: 'bg-green-500/5', borderColor: 'border-green-500/30 hover:border-green-500/50', titleColor: 'text-green-600' };
+    case 'personalDriver':
+      return { iconColor: 'text-purple-500', bgColor: 'bg-purple-500/5', borderColor: 'border-purple-500/30 hover:border-purple-500/50', titleColor: 'text-purple-600' };
+    case 'ps5':
+      return { iconColor: 'text-red-500', bgColor: 'bg-red-500/5', borderColor: 'border-red-500/30 hover:border-red-500/50', titleColor: 'text-red-600' };
+    case 'transmission':
+      return { iconColor: 'text-yellow-500', bgColor: 'bg-yellow-500/5', borderColor: 'border-yellow-500/30 hover:border-yellow-500/50', titleColor: 'text-yellow-600' };
+    default:
+      return { iconColor: 'text-primary', bgColor: 'bg-primary/10', borderColor: 'border-border/50', titleColor: 'text-foreground' };
   }
-];
+};
 
 const AdditionalServicesSection = ({ onCarDetailPage = false }) => {
   const sectionVariants = {
@@ -61,9 +48,8 @@ const AdditionalServicesSection = ({ onCarDetailPage = false }) => {
     }
   };
 
-  const {id} = useParams()
-
-  const isLi7 = id === "3"
+  const {id} = useParams();
+  const carId = parseInt(id);
 
   const gridClasses = onCarDetailPage
     ? "grid-cols-1 md:grid-cols-2 gap-6"
@@ -93,24 +79,34 @@ const AdditionalServicesSection = ({ onCarDetailPage = false }) => {
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {services
-            .filter((_, index) => isLi7 || index !== services.length - 1)
-            .map((service, index) => (
-          <motion.div key={index} variants={cardVariants} whileHover="hover">
-            <Card className={`h-full overflow-hidden shadow-lg transition-all duration-300 ease-out border-2 ${service.borderColor} ${service.bgColor}`}>
-              <CardHeader className={`p-5 flex flex-col items-center text-center`}>
-                <div className={`p-2.5 rounded-full mb-2.5 ${service.bgColor}`}>
-                   <service.icon className={`h-8 w-8 ${service.iconColor}`} />
-                </div>
-                <CardTitle className={`text-lg font-bold ${service.titleColor}`}>{service.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="p-5 pt-0 text-center flex flex-col flex-grow">
-                <p className="text-muted-foreground text-xs mb-3 flex-grow">{service.description}</p>
-                <p className={`text-md font-semibold ${service.iconColor}`}>{service.price}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+        {additionalServicesConfig
+            .filter(service => {
+                if (service.id === 'ps5' && carId !== 3) {
+                    return false;
+                }
+                return true;
+            })
+            .map((service, index) => {
+              const IconComponent = iconsMap[service.iconKey];
+              const displayPrice = service.feeType === 'daily' ? `${service.fee.toLocaleString('ru-RU')} ₽/день` : `${service.fee.toLocaleString('ru-RU')} ₽`;
+              const styles = getServiceStyles(service.id);
+              return (
+                <motion.div key={service.id} variants={cardVariants} whileHover="hover">
+                  <Card className={`h-full overflow-hidden shadow-lg transition-all duration-300 ease-out border-2 ${styles.borderColor} ${styles.bgColor}`}>
+                    <CardHeader className={`p-5 flex flex-col items-center text-center`}>
+                      <div className={`p-2.5 rounded-full mb-2.5 ${styles.bgColor}`}>
+                         {IconComponent && <IconComponent className={`h-8 w-8 ${styles.iconColor}`} />}
+                      </div>
+                      <CardTitle className={`text-lg font-bold ${styles.titleColor}`}>{service.label}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-5 pt-0 text-center flex flex-col flex-grow justify-between">
+                      <p className="text-muted-foreground text-xs mb-3">{service.description}</p>
+                      <p className={`text-xl font-bold ${styles.iconColor}`}>{displayPrice}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
       </motion.div>
     </div>
   );

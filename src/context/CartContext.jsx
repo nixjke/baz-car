@@ -1,12 +1,20 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
+import { serviceFees, additionalServicesConfig } from '@/config/bookingOptions';
 
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
 const calculateItemPrice = (item) => {
+  console.log('calculateItemPrice: Incoming item:', item);
+
+  // Defensive check: Ensure item and item.car are valid before proceeding
+  if (!item || !item.car || typeof item.car.price === 'undefined') {
+    console.error('Invalid item or car price in calculateItemPrice:', item);
+    return 0; // Return 0 to prevent crash and indicate an invalid item
+  }
+
   let rentalDays = 0;
   let currentDailyPrice = item.car.price;
 
@@ -25,30 +33,48 @@ const calculateItemPrice = (item) => {
       }
     }
   }
-  
-  // Ensure rentalDays from item is used if dates are not set (e.g. quick add)
-  // or if calculated rentalDays is 0 but item.rentalDays is positive
-  if (item.rentalDays && (rentalDays === 0 || !item.pickupDate || !item.returnDate)) {
-    rentalDays = item.rentalDays;
-    if (rentalDays >= 3 && item.car.price_3plus_days) {
-        currentDailyPrice = item.car.price_3plus_days;
-    } else {
-        currentDailyPrice = item.car.price;
-    }
-  }
-
+  console.log('calculateItemPrice: rentalDays:', rentalDays, 'currentDailyPrice:', currentDailyPrice);
 
   const rentalCost = currentDailyPrice * rentalDays;
   const deliveryCost = item.deliveryOption?.price || 0;
-  const youngDriverCost = item.youngDriver ? 2000 : 0;
-  
-  let additionalServicesCost = 0;
-  if (item.childSeat) additionalServicesCost += 700;
-  if (item.youngDriver) additionalServicesCost += 2000;
-  if (item.personalDriver && rentalDays > 0) additionalServicesCost += 5000 * rentalDays; // personalDriverFee * rentalDays
-  if (item.ps5) additionalServicesCost += 1000;
+  console.log('calculateItemPrice: rentalCost:', rentalCost, 'deliveryCost:', deliveryCost);
 
-  return rentalCost + deliveryCost + youngDriverCost + additionalServicesCost;
+  let additionalServicesCost = 0;
+
+  // Add Young Driver cost if selected
+  if (item.youngDriver && serviceFees.youngDriver) {
+    additionalServicesCost += serviceFees.youngDriver;
+    console.log('calculateItemPrice: Added youngDriver cost:', serviceFees.youngDriver, 'current total:', additionalServicesCost);
+  }
+
+  // Iterate through additionalServicesConfig to calculate costs
+  additionalServicesConfig.forEach(service => {
+    console.log('calculateItemPrice: Processing service:', service.id, 'item value:', item[service.id]);
+
+    // Ensure service, service.id, service.fee, and service.feeType are defined
+    if (!service || !service.id || typeof service.fee === 'undefined' || !service.feeType) {
+      console.warn('Malformed service config detected:', service);
+      return; // Skip malformed service
+    }
+
+    // Apply PS5 filtering for Li L7 (car.id === 3)
+    if (service.id === 'ps5' && item.car.id !== 3) {
+      console.log('calculateItemPrice: Skipping PS5 for car.id:', item.car.id);
+      return; // Skip PS5 for non-Li L7 cars
+    }
+
+    if (item[service.id]) {
+      const serviceCost = service.feeType === 'daily' ? service.fee * rentalDays : service.fee;
+      additionalServicesCost += serviceCost;
+      console.log('calculateItemPrice: Added service cost for', service.id, ':', serviceCost, 'current total:', additionalServicesCost);
+    }
+  });
+  console.log('calculateItemPrice: Final additionalServicesCost:', additionalServicesCost);
+
+  const totalPrice = rentalCost + deliveryCost + additionalServicesCost;
+  console.log('calculateItemPrice: Final totalPrice:', totalPrice);
+
+  return totalPrice;
 };
 
 
@@ -68,6 +94,8 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   const addToCart = (item) => {
+    console.log('addToCart: Item being added:', item);
+
     // Basic validation for essential fields before adding to cart
     if (!item.name || !item.phone || !item.pickupDate || !item.returnDate) {
         toast({
@@ -80,6 +108,7 @@ export const CartProvider = ({ children }) => {
 
 
     setCartItems(prevItems => {
+      console.log('addToCart: Current cart items (prevItems):', prevItems);
       const existingItemIndex = prevItems.findIndex(
         i =>
           i.car.id === item.car.id &&
@@ -89,8 +118,10 @@ export const CartProvider = ({ children }) => {
           i.youngDriver === item.youngDriver &&
           i.childSeat === item.childSeat &&
           i.personalDriver === item.personalDriver &&
-          i.ps5 === item.ps5
+          i.ps5 === item.ps5 &&
+          i.transmission === item.transmission
       );
+      console.log('addToCart: existingItemIndex:', existingItemIndex);
 
       if (existingItemIndex > -1) {
         toast({
@@ -105,8 +136,11 @@ export const CartProvider = ({ children }) => {
         ...item, 
         id: Date.now(), 
         totalPrice: calculateItemPrice(item),
-        rentalDays: item.rentalDays || (item.pickupDate && item.returnDate ? Math.ceil(Math.abs(new Date(item.returnDate) - new Date(item.pickupDate)) / (1000 * 60 * 60 * 24)) || 1 : 1)
+        rentalDays: item.rentalDays || (item.pickupDate && item.returnDate ? Math.ceil(Math.abs(new Date(item.returnDate) - new Date(item.pickupDate)) / (1000 * 60 * 60 * 24)) || 1 : 1),
+        dailyPrice: item.dailyPrice,
+        // transmission: item.transmission, // This property is already spread from `...item`
       };
+      console.log('addToCart: New item with price:', newItemWithPrice);
 
       toast({
         title: "Добавлено в корзину!",

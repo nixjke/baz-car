@@ -84,6 +84,7 @@
 html {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--primary) / 0.7) hsl(var(--secondary));
+  overflow-y: scroll; /* Ensures scrollbar space is always reserved to prevent layout shifts */
 }
 
 

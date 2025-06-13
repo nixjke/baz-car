@@ -10,6 +10,7 @@ import CartPage from "@/pages/CartPage";
 import AboutDagestanPage from "@/pages/AboutDagestanPage.jsx";
 import NotFoundPage from "@/pages/NotFoundPage";
 import { AnimatePresence, motion } from "framer-motion";
+import QRCodeInfo from "@/pages/QRCodeInfo.jsx";
 
 const PageLayout = ({ children }) => {
   const location = useLocation();
@@ -26,34 +27,31 @@ const PageLayout = ({ children }) => {
   );
 };
 
-
-const AppRoutes = () => {
-  const location = useLocation();
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageLayout><HomePage /></PageLayout>} />
-        <Route path="/cars" element={<PageLayout><CarsPage /></PageLayout>} />
-        <Route path="/cars/:id" element={<PageLayout><CarDetailPage /></PageLayout>} />
-        <Route path="/cart" element={<PageLayout><CartPage /></PageLayout>} />
-        <Route path="/about-dagestan" element={<PageLayout><AboutDagestanPage /></PageLayout>} />
-        <Route path="*" element={<PageLayout><NotFoundPage /></PageLayout>} />
-      </Routes>
-    </AnimatePresence>
-  );
-}
-
 const App = () => {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-background">
-        <Navbar />
-        <main className="flex-grow">
-          <AppRoutes />
-        </main>
-        <Footer />
-        <Toaster />
-      </div>
+      <Routes>
+        <Route path="/qr-code-info" element={<QRCodeInfo />} />
+        <Route path="*" element={(
+          <div className="flex flex-col min-h-screen bg-background">
+            <Navbar />
+            <main className="flex-grow">
+                <AnimatePresence mode="wait">
+                  <Routes>
+                    <Route path="/" element={<PageLayout><HomePage /></PageLayout>} />
+                    <Route path="/cars" element={<PageLayout><CarsPage /></PageLayout>} />
+                    <Route path="/cars/:id" element={<PageLayout><CarDetailPage /></PageLayout>} />
+                    <Route path="/cart" element={<PageLayout><CartPage /></PageLayout>} />
+                    <Route path="/about-dagestan" element={<PageLayout><AboutDagestanPage /></PageLayout>} />
+                    <Route path="*" element={<PageLayout><NotFoundPage /></PageLayout>} />
+                  </Routes>
+                </AnimatePresence>
+            </main>
+            <Footer />
+            <Toaster />
+          </div>
+        )} />
+      </Routes>
     </Router>
   );
 };

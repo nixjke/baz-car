@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cars } from "@/data/cars";
@@ -19,15 +19,16 @@ import {
   Star,
   CheckCircle,
   Tag,
-  AlertTriangle,
   UserCheck,
   Mountain,
   CreditCard
 } from "lucide-react";
+import { fetchBookings } from "@/core/core.js";
 
 const CarDetailPage = () => {
   const { id } = useParams();
   const location = useLocation();
+  const [bookedDates, setBookedDates] = useState([]);
   const car = cars.find(c => c.id === parseInt(id));
 
   const queryParams = new URLSearchParams(location.search);
@@ -45,6 +46,16 @@ const CarDetailPage = () => {
       }
     }
   }, [action, id]);
+
+  useEffect(() => {
+    const loadBookedDates = async () => {
+      if (car) {
+        const dates = await fetchBookings(car.name);
+        setBookedDates(dates);
+      }
+    };
+    loadBookedDates();
+  }, [car]);
 
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -109,9 +120,6 @@ const CarDetailPage = () => {
                 <span className="text-muted-foreground text-sm">/день (от 3 дней)</span>
                 <Badge variant="success" className="ml-2 text-xs px-2 py-0.5 shadow-sm bg-green-100 text-green-700 border-green-300">
                   <Tag className="h-3 w-3 mr-1"/> Выгодно
-                </Badge>
-                <Badge variant="success" className="ml-2 text-xs px-2 py-0.5 shadow-sm bg-green-100 text-green-700 border-green-300">
-                  <Tag className="h-3 w-3 mr-1"/> С учётом скидки в 10% в честь открытия
                 </Badge>
               </div>
             )}
@@ -215,7 +223,7 @@ const CarDetailPage = () => {
           </div>
 
           <motion.div id="booking-form-section" className="lg:col-span-1 sticky top-24" variants={itemVariants(7)}>
-            <BookingForm car={car} price={car.price} price3PlusDays={car.price_3plus_days} />
+            <BookingForm car={car} price={car.price} price3PlusDays={car.price_3plus_days} bookedDates={bookedDates} />
           </motion.div>
         </div>
       </div>

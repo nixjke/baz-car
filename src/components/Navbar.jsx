@@ -64,7 +64,7 @@ const Navbar = () => {
     >
       <div className="container flex items-center justify-between h-20">
         <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
-          <img src={logoUrl} alt="BazCar Logo" className="h-10 w-auto" />
+          <img src='/logo.png' alt="BazCar Logo" className="h-10 w-auto" />
           <span className="hidden sm:inline bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
             BazCar
           </span>
